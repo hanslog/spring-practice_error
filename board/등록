@@ -1,1 +1,26 @@
 문제원인에러와 해결방안
+1) 문제가 되었던부분 db키값과 dto의 value값을 제대로 인식하지못했다
+2) 개념을 다시 정비하는 계기가 되었다
+
+<!-- 공지사항등록 -->
+<insert id="insertNotice" parameterType="co.kr.web.notice.dto.NoticeDto">
+<![CDATA[
+	insert into notice 
+	(
+		 title
+		,content
+		,reg_dt      =>db키값과 동일하게 써야 한다
+		,reg_id      =>db키값과 동일하게 써야한다
+		,use_yn     =>db키값과 동일하게 써야한다
+		)
+	values
+	(
+		
+		 #{title}           =>dto와 변수와 동일해야 한다
+		,#{content}     =>dto변수에해당
+		,now()            =>예외적으로 데이트는 표시단위가 다르다
+		,#{regId}       =>dto와 변수와 동일해야 한다
+		,#{useYn}     =>dto와 변수와 동일해야 한다
+	)
+]]>		
+</insert>
