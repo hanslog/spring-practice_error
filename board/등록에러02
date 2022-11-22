@@ -1,0 +1,34 @@
+1) controller주소로 타는 흐름을 정확히 인지하지못함
+2) controller를 흐름을 인식하지 못해 html에서도 에러가 되었다는것을 인식하게됨
+
+
+@Slf4j
+@RequestMapping("/notice")=>1)/notice안에서 시작한다
+@Controller
+public class NoticeController {
+	  
+	@Autowired
+	private NoticeService noticeService;
+  
+  	//공지사항 등록
+	@GetMapping("/noticeReg")  =>2) noticeReg는 /notice/noticeReg로 타고 들어오게된다 
+	public void noticeReg() {
+		System.out.println("notice reg");
+		
+	}
+
+	//공지사항등록 Post!!
+	@PostMapping("/noticeReg")
+	public String insertNotice(NoticeDto noticeDto, HttpSession session)throws Exception {
+		String memberId=SessionUtil.getMemberId(session);
+		log.info("{}", noticeDto);
+		noticeService.insertNotice(memberId, noticeDto);
+		return "notice/noticeSaveProc";
+	}
+==============================================================================================
+  html에서
+  <div>
+		<a th:href="@{/notice/noticeReg}">글 작성</a>  =>주소위치를 /notice로만해줘서 문제가되었다는것 인식하게됨!!!
+		<a href="/">홈 화면</a>
+	</div>	
+ 
