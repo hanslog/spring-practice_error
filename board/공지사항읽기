@@ -1,0 +1,30 @@
+공지사항읽기 코드에러
+
+GetMapping("/noticeRead") 
+public ModelAndView getNoticeSee(@ModelAttribute SearchDto searchDto, @RequestParam(required=false) long noticeIdx, ModelAndView read) throws Excetion{
+ 
+ ==>@RequestParam(requried=false)라면 여기서  required=false로하면 꼭defaultValue값을 넣어주어야 한다 디폴트값이 없어서 에러가떳다
+==>다시 @RequestParam(value="noticeIdx") Long noticeIdx로 value값이 있다면 required값은생략할수 있다
+ 
+  //데이터 조회
+  NoticeDto noticeDto=noticeService.getNoticeSee(noticeIdx);
+  List<ReplyDto> replyList=noticeService.readReply(noticeIdx);
+  
+    log.info("notice see:{}", searchDto);
+    log.info("noticeIdx : {}", noticeIdx);
+     
+     if(noticeDto==null){
+        throw new CustomRestValidException(ErrodCOde.PAGE_NOT_FOUND);
+       }
+     if(!"Y".equals(noticeDto.getUseYn())){
+      throw new CustomRestValidException(ErroCode.PAGE_NOT_FOUND);
+      }
+      mav.addObject("reply",replyList);
+      mav.addObject("search", searchDto);
+      mav.addObject("notice", noticeDto);
+      mav.setViewName("notice/noticeRead");
+      
+      return mav;
+  }
+       
+    
