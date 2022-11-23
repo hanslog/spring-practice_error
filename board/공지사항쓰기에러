@@ -1,0 +1,48 @@
+게시판쓰기에러
+====>쿼리스트링에 대한 서투름으로 인한 ?표를 빼먹어서 오류가 났다
+
+오류내용
+An error happend during template parsing(template:"class path resource[template/notice/noticeModifyForm.html]")
+Caused by: org.attopase.ParseException: Exception evaluationg SpringEl expression: "notice.title"(template:"notice/noticeModifyForm")
+
+1)주된원인 notice.title에 들어갈 값이 url에서는 ?로나타나는데 이걸 빼먹어서 오류가났다
+2) 전체 쿼리스트링으로 바꿔주고나서 오류해결
+notice?.title  
+notice?.content
+
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<th:block th:replace="fragments/meta ::metaFragment('공지사항 상세보기', 'false')"></th:block>
+</head>
+<body>
+	<form method="post" action="/notice/noticeModifyProc" id="modifyProcForm">
+	<div>
+		제목 : <input id="title" type="text" name="title" th:value="${notice.title}"> 		
+
+    
+	</div>
+	<div>
+		내용 : <input id="content" type="text" name="content" th:value="${notice.content}" style="width:1000px; height:100px;">
+	</div>
+	<div>
+		<input type="hidden" name="idx" th:value="${notice.idx}">
+		<a th:href="@{/notice/list(nowPage=${search?.nowPage}, searchText=${search.searchText})}">목록</a>
+		<button type="button" id="modifyProcBtn">수정</button>
+	</div>
+	</form>
+</body>
+	<th:block th:replace="fragments/script :: scriptFragment('')"></th:block>
+	<script>
+		$(function(){
+			$("#modifyProcBtn").on("click", function(){
+				if(confirm("수정하시겠습니까")){
+					$("#modifyProcForm").submit();
+				}
+				
+			})
+		})
+	</script>
+</html>
