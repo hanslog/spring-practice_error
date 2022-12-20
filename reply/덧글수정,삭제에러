@@ -1,0 +1,23 @@
+덧글 수정에러
+1)	list.regId !=session.member.id =>작성자와 로그인자가 맞지 않을경우 다른사람도 내글을 고치고 작성할수 있다는거에 실수를 했다
+=>내글은 나만 고칠수 있어야지 기본적으로 다른사람이 고칠수는 없었다 댓글은 달을수는 있어도 다른사람이 내글을 왜 고쳐야하나? 한번더 생각해보면 쉽게고칠수 있는 사항이다
+2)			<input type="hidden" name="noticeIdx" th:value=${list?.idx}>
+=> "  "따옴표를 빼먹었다는 사실을 나중에서야 알았다 댓글을 수정하면 작동은 되는데 수정되지가 않네??? 왜그러나??  있어야할 " "할게 오타가 나면 수정기능은 되지않는다
+=> form형식을 작성하고 나서 오타가 없는지 작성자와 로그인한자와의 관계성립이 맞는지 체크할것!!
+
+		<input type="hidden" name="noticeIdx" th:value="${list?.idx}">
+<td>
+				
+						<!-- 게시글 아이디와 로그인 된 아이디가 같을경우 수정 삭제 기능 -->
+						<th:block th:if="${list.regId !=session.member.id}">
+							<form method="post" action="/notice/noticeModifyForm">
+								<input type="hidden" name="noticeIdx" th:value="${list?.idx}">
+						
+								<!-- 파라미터 전송 -->
+								<input type="hidden" name="nowPage" th:value="${search?.nowPage}">
+								<input type="hidden" name="searchText" th:value="${search?.searchText}">
+								<button><!-- [[${list.idx}]] -->수정</button>
+								<button type="button" name="del_btn" th:data-ntc-idx="${list?.idx}">삭제</button>
+								</form>
+						</th:block>
+					</td>
