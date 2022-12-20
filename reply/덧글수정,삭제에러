@@ -15,16 +15,16 @@ System.out.println(SessionUtil.getMemberId(session))콘솔
 		<input type="hidden" name="noticeIdx" th:value="${list?.idx}">
 <td>
 				
-						<!-- 게시글 아이디와 로그인 된 아이디가 같을경우 수정 삭제 기능 -->
-						<th:block th:if="${list.regId !=session.member.id}">
-							<form method="post" action="/notice/noticeModifyForm">
-								<input type="hidden" name="noticeIdx" th:value="${list?.idx}">
-						
-								<!-- 파라미터 전송 -->
-								<input type="hidden" name="nowPage" th:value="${search?.nowPage}">
-								<input type="hidden" name="searchText" th:value="${search?.searchText}">
-								<button><!-- [[${list.idx}]] -->수정</button>
-								<button type="button" name="del_btn" th:data-ntc-idx="${list?.idx}">삭제</button>
-								</form>
-						</th:block>
-					</td>
+	<!-- 게시글 아이디와 로그인 된 아이디가 같을경우 수정 삭제 기능 -->
+	<th:block th:if="${list.regId !=session.member.id}">
+		<form method="post" action="/notice/noticeModifyForm">
+			<input type="hidden" name="noticeIdx" th:value="${list?.idx}">
+
+			<!-- 파라미터 전송 -->
+			<input type="hidden" name="nowPage" th:value="${search?.nowPage}">
+			<input type="hidden" name="searchText" th:value="${search?.searchText}">
+			<button><!-- [[${list.idx}]] -->수정</button>
+			<button type="button" name="del_btn" th:data-ntc-idx="${list?.idx}">삭제</button>
+			</form>
+	</th:block>
+</td>
